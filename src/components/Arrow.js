@@ -12,7 +12,7 @@ function Arrow({ className, onClick, inverted, label, disabled }) {
   return (
     <SvgButton
       className={className}
-      onClick={onClick}
+      onMouseUp={onClick}
       data-tour-elem={`${inverted ? 'right' : 'left'}-arrow`}
       disabled={disabled}
     >

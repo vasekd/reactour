@@ -68,7 +68,6 @@ class Tour extends Component {
     }
 
     if (
-      isOpen &&
       nextProps.isOpen &&
       this.state.current !== nextProps.goToStep
     ) {
@@ -257,6 +256,17 @@ class Tour extends Component {
     }
   }
 
+  nextAction = (cthis) => {
+    const { steps } = this.props
+    const { current } = this.state
+    const step = steps[current];
+    const node = step.selector ? document.querySelector(step.selector) : null
+
+    if (typeof step.nextAction === 'function') {
+      step.nextAction(node, this, cthis)
+    }
+  }
+
   nextStep = () => {
     const { steps, getCurrentStep } = this.props
     this.setState(prevState => {
@@ -337,7 +347,7 @@ class Tour extends Component {
     if (e.keyCode === 39 && !isRightDisabled) {
       // right
       e.preventDefault()
-      typeof nextStep === 'function' ? nextStep() : this.nextStep()
+      typeof nextStep === 'function' ? nextStep(this) : this.nextStep()
     }
 
     if (e.keyCode === 37 && !isLeftDisabled) {
@@ -353,6 +363,7 @@ class Tour extends Component {
       steps,
       maskClassName,
       showButtons,
+      disableLeftButton,
       showCloseButton,
       showNavigation,
       showNavigationNumber,
@@ -457,6 +468,7 @@ class Tour extends Component {
                           goTo: this.gotoStep,
                           inDOM,
                           step: current + 1,
+                          onRequestClose: onRequestClose,
                         })
                       : steps[current].content)
                   }
@@ -473,6 +485,7 @@ class Tour extends Component {
                           goTo: this.gotoStep,
                           inDOM,
                           step: current + 1,
+                          onRequestClose: onRequestClose,
                         })
                       : steps[current].content)}
                   {showNumber && (
@@ -484,14 +497,14 @@ class Tour extends Component {
                   )}
                   {(showButtons || showNavigation) && (
                     <Controls data-tour-elem="controls">
-                      {showButtons && (
+                      {showButtons && !disableLeftButton && (
                         <Arrow
                           onClick={
                             typeof prevStep === 'function'
                               ? prevStep
                               : this.prevStep
                           }
-                          disabled={current === 0}
+                          disabled={disableLeftButton || current === 0}
                           label={prevButton ? prevButton : null}
                         />
                       )}
@@ -524,7 +537,7 @@ class Tour extends Component {
                                 ? onRequestClose
                                 : () => {}
                               : typeof nextStep === 'function'
-                              ? nextStep
+                              ? nextStep.bind(null,this)
                               : this.nextStep
                           }
                           disabled={
@@ -577,7 +590,7 @@ const setNodeState = (node, helper, position) => {
         height: 0,
         w,
         h,
-        helperPosition: 'center',
+        helperPosition: 'top',
       }
   return function update() {
     return {

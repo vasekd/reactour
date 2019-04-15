@@ -4,7 +4,7 @@ import * as hx from '../helpers'
 import PropTypes from 'prop-types'
 
 const SvgMaskWrapper = styled.div`
-  opacity: 0.7;
+  opacity: 0.5;
   width: 100%;
   left: 0;
   top: 0;
@@ -172,4 +172,5 @@ SvgMask.propTypes = {
   rounded: PropTypes.number.isRequired,
   disableInteraction: PropTypes.bool.isRequired,
   disableInteractionClassName: PropTypes.string.isRequired,
+  className: PropTypes.any,
 }

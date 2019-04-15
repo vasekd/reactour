@@ -1,14 +1,14 @@
 import pick from 'lodash.pick'
 
 export function getNodeRect(node) {
-  return pick(node.getBoundingClientRect(), [
+  return node ? pick(node.getBoundingClientRect(), [
     'top',
     'right',
     'bottom',
     'left',
     'width',
     'height',
-  ])
+  ]): pick(document.body);
 }
 
 export function inView({ top, right, bottom, left, w, h, threshold = 0 }) {

@@ -19,6 +19,7 @@ export const propTypes = {
   scrollDuration: PropTypes.number,
   scrollOffset: PropTypes.number,
   showButtons: PropTypes.bool,
+  disableLeftButton: PropTypes.bool,
   showCloseButton: PropTypes.bool,
   showNavigation: PropTypes.bool,
   showNavigationNumber: PropTypes.bool,
@@ -38,6 +39,7 @@ export const propTypes = {
       ]).isRequired,
       position: PropTypes.oneOf(['top', 'right', 'bottom', 'left', 'center']),
       action: PropTypes.func,
+      nextAction: PropTypes.func,
       style: PropTypes.object,
       stepInteraction: PropTypes.bool,
     })

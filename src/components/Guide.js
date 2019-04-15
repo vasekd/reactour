@@ -54,7 +54,7 @@ const Guide = styled.div`
           return coords[positionsOrder[j]]
         }
       }
-      return coords.center
+      return coords.fail
     }
 
     const pos = helperPosition => {
@@ -78,6 +78,10 @@ const Guide = styled.div`
         center: [
           windowWidth / 2 - helperWidth / 2,
           windowHeight / 2 - helperHeight / 2,
+        ],
+        fail: [
+          targetLeft + padding ,
+          targetTop + padding,
         ],
       }
       if (helperPosition === 'center' || couldPositionAt(helperPosition)) {
